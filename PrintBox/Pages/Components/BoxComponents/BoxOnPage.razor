@@ -1,15 +1,12 @@
-﻿@if (boxAdded == false && graphsClosed == false)
+﻿@if (boxAdded == false)
 {
 	<AddBoxFunc onaddedbox="HandleOnAdded" boxName="@boxName"></AddBoxFunc>
 }
-@if (boxAdded && graphsOpened)
+@if (boxAdded)
 {
 	<ConnectedBoxTemplate ondeletedbox="HandleOnAdded" onopenedbox="HandleOnOpened" boxName="@boxName"></ConnectedBoxTemplate>
 }
-@if (graphsOpened == false)
-{
-	<BoxGraphComponent onhidedgraph="HandleOnOpened" NameOfBox="@boxName"></BoxGraphComponent>
-}
+
 
 
 @code {
@@ -19,10 +16,6 @@
     private bool boxAdded = true;
 
     public bool boxDeleted = true;
-
-    private bool graphsOpened = true;
-
-    public bool graphsClosed = false;
 
     [Parameter]
     public string boxName { get; set; }
@@ -52,14 +45,10 @@
         switch (result)
         {
             case "Open":
-                graphsOpened = false;
-                graphsClosed = true;
                 boxAdded = false;
                 boxDeleted = true;
                 break;
             case "Back":
-                graphsOpened = true;
-                graphsClosed = false;
                 boxAdded = true;
                 boxDeleted = false;
                 break;

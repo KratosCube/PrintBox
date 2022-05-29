@@ -44,8 +44,8 @@ else{
 					@foreach (var b in lastdata)
 					{
 						<tr>
-							<td>@b.Tamperature</td>
-               <td>@b.Fan</td>
+				<td>@b.Tamperature</td>
+               <td>@b.FanSpeed</td>
                <td>@b.Time_recieved</td>
 						</tr>
 					}
@@ -54,6 +54,10 @@ else{
 			</table>
 
     </div>
+
+
+
+
     }
 @code {
     bool smooth = false;

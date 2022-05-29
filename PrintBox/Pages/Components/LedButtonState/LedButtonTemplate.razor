@@ -55,9 +55,6 @@
 				Led2State = b.Led2State,
 				Led3State = b.Led3State,
 				Led4State = b.Led4State,
-				Led5State = b.Led5State,
-				Led6State = b.Led6State,
-				Led7State = b.Led7State,
 				DoorState = b.DoorState
 			};
 	}
@@ -92,15 +89,6 @@
 				case 4:
 					ReadboxStates.Led4State = false;
 					break;
-				case 5:
-					ReadboxStates.Led5State = false;
-					break;
-				case 6:
-					ReadboxStates.Led6State = false;
-					break;
-				case 7:
-					ReadboxStates.Led7State = false;
-					break;
 				default:
 					break;
 			}
@@ -122,15 +110,6 @@
 					break;
 				case 4:
 					ReadboxStates.Led4State = true;
-					break;
-				case 5:
-					ReadboxStates.Led5State = true;
-					break;
-				case 6:
-					ReadboxStates.Led6State = true;
-					break;
-				case 7:
-					ReadboxStates.Led7State = true;
 					break;
 				default:
 					break;

@@ -10,10 +10,11 @@ namespace SupportLibrary.Models
     {
 
         public string NameOfBox { get; set; }
+        public float Humidity { get; set; }
         public float Tamperature { get; set; }
         public string Door { get; set; }
-        public string Led { get; set; }
-        public float Fan { get; set; }
+        public int LedIntensity { get; set; }
+        public float FanSpeed { get; set; }
         public int Id { get; set; }
         public DateTime Time_recieved { get; set; }
 

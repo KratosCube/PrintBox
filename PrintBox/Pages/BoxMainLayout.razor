@@ -20,14 +20,23 @@ else{
 
 <LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4"></LedButtonTemplate>
 
-<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led5State" LedNum="5"></LedButtonTemplate>
-
-<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led6State" LedNum="6"></LedButtonTemplate>
-
-<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led7State" LedNum="7"></LedButtonTemplate>
-
 </div>
 </div>
+	@if (lastdata == null)
+	{
+		<h4>Loading...</h4>
+
+	}
+	else
+	{
+		<div class="row">
+			<h2>Led Intensity</h2>
+			<div class="col-md-4">
+				<label><span class="d-block mt-3 mb-1">Value</span><RadzenSlider Min="+0" Max="100" @bind-Value=@value Style="width: 200px;" /></label>
+				<h3>@value %</h3>
+			</div>
+		</div>
+	}
 
 <div class="row">
 	<div class="col-md-4">
@@ -46,9 +55,6 @@ else{
 						<th>Led 2</th>
 						<th>Led 3</th>
 						<th>Led 4</th>
-						<th>Led 5</th>
-						<th>Led 6</th>
-						<th>Led 7</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -69,15 +75,6 @@ else{
 
 							@if(ReadboxStates.Led4State == false){<td class="text-danger">@ReadboxStates.Led4State</td>}
 							else{<td class="text-primary">@ReadboxStates.Led4State</td>}
-
-							@if(ReadboxStates.Led5State == false){<td class="text-danger">@ReadboxStates.Led5State</td>}
-							else{<td class="text-primary">@ReadboxStates.Led5State</td>}
-
-							@if(ReadboxStates.Led6State == false){<td class="text-danger">@ReadboxStates.Led6State</td>}
-							else{<td class="text-primary">@ReadboxStates.Led6State</td>}
-
-							@if(ReadboxStates.Led7State == false){<td class="text-danger">@ReadboxStates.Led7State</td>}
-							else{<td class="text-primary">@ReadboxStates.Led7State</td>}
 						</tr>
 
 
@@ -102,12 +99,12 @@ else{
 	private string Name;
 
 	private IBoxStateModel ReadboxStates;
-
+	private List<IBoxDataModel> lastdata;
 	protected override async Task OnParametersSetAsync()
 	{
 		Name = BoxName;
 		var b = await boxdata.ReadState(BoxName);
-
+		lastdata = await boxdata.ReadLastXData(10);
 		ReadboxStates = new DisplayBoxStateModel
 			{
 				BoxId = b.BoxId,
@@ -115,12 +112,9 @@ else{
 				Led2State = b.Led2State,
 				Led3State = b.Led3State,
 				Led4State = b.Led4State,
-				Led5State = b.Led5State,
-				Led6State = b.Led6State,
-				Led7State = b.Led7State,
 				DoorState = b.DoorState
 			};
 	}
-
+	double value = 100;
 
 }

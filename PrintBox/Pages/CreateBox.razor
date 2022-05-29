@@ -64,41 +64,44 @@
 		}
 	</div>
 
-	<div class="col-md-4">
-		<h3>Box Data </h3>
-		@if (ReadboxData == null)
-		{
-			<h4>Loading...</h4>
-		}
-		else
-		{
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Name</th>
-						<th>Led State</th>
-						<th>Door State</th>
-						<th>Temperature</th>
-					</tr>
-				</thead>
-				<tbody>
-
-					@foreach (var b in ReadboxData)
-					{
+		<div class="col-md-4">
+			<h3>Box Data </h3>
+			@if (ReadboxData == null)
+			{
+				<h4>Loading...</h4>
+			}
+			else
+			{
+				<table class="table table-striped">
+					<thead>
 						<tr>
-							<td>@b.Id</td>
-							<td>@b.NameOfBox</td>
-							<td>@b.Led</td>
-							<td>@b.Door</td>
-							<td>@b.Tamperature</td>
+							<td>Id</td>
+							<td>NameOfBox</td>
+							<td>Tamperature</td>
+							<td>Humidity</td>
+							<td>LedIntensity</td>
+							<td>FanSpeed</td>
 						</tr>
-					}
+					</thead>
+					<tbody>
 
-				</tbody>
-			</table>
-		}
-	</div>
+						@foreach (var b in lastdata)
+						{
+							<tr>
+								<td>@b.Id</td>
+								<td>@b.NameOfBox</td>
+								<td>@b.Tamperature</td>
+								<td>@b.Humidity</td>
+								<td>@b.LedIntensity</td>
+								<td>@b.FanSpeed</td>
+
+							</tr>
+						}
+
+					</tbody>
+				</table>
+			}
+		</div>
 	</div>
 </div>
 
@@ -121,12 +124,15 @@
 
 	private List<IBoxModel> Readbox;
 	private List<IBoxDataModel> ReadboxData;
+	private List<IBoxDataModel> lastdata;
     protected override async Task OnParametersSetAsync()
     {
         Readbox = await boxdata.ReadBox();
 		ReadboxData = await boxdata.ReadBoxData();
+		lastdata = await boxdata.ReadLastXData(100);
     }
-
+	
+        
 		
 
 }
