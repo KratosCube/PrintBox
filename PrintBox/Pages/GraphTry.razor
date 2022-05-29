@@ -1,0 +1,124 @@
+﻿@page "/graph"
+
+@inject IBoxDataService boxdata
+
+
+<h1>Radzen Blazor Chart with line series</h1>
+@if(lastdata == null)
+{
+    <h4>Loading...</h4>
+}
+else{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 my-5">
+                <RadzenCard Class="w-100 mb-4" >
+                    <RadzenCheckBox @bind-Value="@smooth" Name="smooth"></RadzenCheckBox>
+                    <RadzenLabel Text="Smooth" For="smooth" Style="margin-left: 8px; vertical-align: middle;" />
+                </RadzenCard>
+                <RadzenChart>
+                    <RadzenLineSeries Smooth="@smooth" Data="@revenue2019" CategoryProperty="Date" Title="2019" LineType="LineType.Dashed" ValueProperty="Revenue">
+                        <RadzenMarkers MarkerType="MarkerType.Square" />
+                    </RadzenLineSeries>
+                    <RadzenCategoryAxis Padding="20" FormatString="{0:HH:mm:ss}" />
+                    <RadzenValueAxis Formatter="FormatAsUSD">
+                        <RadzenGridLines Visible="true" />
+                        <RadzenAxisTitle Text="Revenue in USD" />
+                    </RadzenValueAxis>
+                </RadzenChart>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Tamperature</th>
+						<th>Fan</th>
+						<th>Time_recieved</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					@foreach (var b in lastdata)
+					{
+						<tr>
+							<td>@b.Tamperature</td>
+               <td>@b.Fan</td>
+               <td>@b.Time_recieved</td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+
+    </div>
+    }
+@code {
+    bool smooth = false;
+    int countOfData = 10;
+
+    class DataItem
+    {
+        public DateTime Date { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    string FormatAsUSD(object value)
+    {
+        return "°C"
+        ;
+    }
+
+    private List<IBoxDataModel> lastdata;
+
+
+
+    DataItem[] revenue2019 = new DataItem[] {
+
+                //new DataItem
+                //{
+                //    Date = DateTime.Parse("2022-05-27 01:14:04.647"),
+                //    Revenue = 63.857106897561
+                //},
+                //                new DataItem
+                //{
+                //    Date = DateTime.Parse("2022-05-27 01:14:05.647"),
+                //    Revenue = 68
+                //}
+
+                //new DataItem
+                //{
+                //    Date = DateTime.Parse("2022-05-27 01:14:04.647"),
+                //    Revenue = 63.857106897561
+                //}
+
+
+        };
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        lastdata = await boxdata.ReadLastXData(countOfData);
+
+
+        
+        foreach(var b in lastdata)
+        {
+           revenue2019 = new DataItem[] {
+
+                new DataItem
+                {
+                    Date = b.Time_recieved,
+                    Revenue = (double)b.Tamperature
+                } };
+        }
+
+
+
+    }
+
+    
+
+}

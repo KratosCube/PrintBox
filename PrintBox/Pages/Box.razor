@@ -1,0 +1,36 @@
+﻿@page "/Box"
+@inject IBoxDataService boxdata
+
+
+@using System.Globalization
+@using PrintBox.Pages.Components.BoxComponents
+
+<h1>Set up your PrintControl</h1>
+
+<div class="row px-3">
+
+	@if (box == null)
+	{
+		<h4>Loading...</h4>
+	}
+	else
+	{
+		@foreach (var b in box)
+		{
+			<div class="col-md-4 p-3">
+				<BoxOnPage boxName="@b.NameOfBox"></BoxOnPage>
+			</div>
+		}
+	}
+
+
+	
+</div>
+@code {
+	    private List<IBoxModel> box;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        box = await boxdata.ReadBox();
+    }
+}

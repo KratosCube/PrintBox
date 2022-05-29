@@ -1,0 +1,63 @@
+﻿
+
+<RadzenCard>
+	<div class="col-md-6">
+		<h2 class="mb-4">@boxName</h2>
+	</div>
+	<img src="https://media.istockphoto.com/photos/white-box-3d-rendering-picture-id1195404252?k=20&m=1195404252&s=170667a&w=0&h=Zbhtwk5ebHVzI6UTPG4HU6S6v_HSypXL7Smj1gZG2R0=">
+	<div class="row justify-content-between">
+		<div class="col">
+
+
+
+		<button class="btn btn-outline-primary " @onclick="OpenBoxFunction">
+			<span class="oi oi-graph mx-2"></span> Graphs
+			</button>
+		</div>
+		<div class="col">
+			<button class="btn btn-outline-danger " @onclick="DeleteBoxFunction">
+				<span class="oi oi-chevron-top"></span>
+			</button>
+		</div>
+		<div class="col">
+			<button class="btn btn-outline-info " @onclick="@(x => RouteWithName(@boxName))">
+				<span class="oi oi-external-link"></span>
+			</button>
+		</div>
+
+	</div>
+</RadzenCard>
+
+@code {
+	[Inject]
+	public NavigationManager Navigationmanager { get; set; }
+
+
+	[Parameter]
+	public string boxName { get; set; }
+
+	[Parameter]
+	public EventCallback<string> ondeletedbox { get; set; }
+
+	private void DeleteBoxFunction()
+	{
+		ondeletedbox.InvokeAsync("Deleted");
+
+
+	}
+
+	[Parameter]
+	public EventCallback<string> onopenedbox { get; set; }
+	private void OpenBoxFunction()
+	{
+		onopenedbox.InvokeAsync("Open");
+
+
+	}
+
+
+	public void RouteWithName(string linkName){
+		Navigationmanager.NavigateTo("/boxer/"+linkName);
+	}
+
+}

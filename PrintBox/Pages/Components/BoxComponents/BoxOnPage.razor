@@ -1,0 +1,70 @@
+﻿@if (boxAdded == false && graphsClosed == false)
+{
+	<AddBoxFunc onaddedbox="HandleOnAdded" boxName="@boxName"></AddBoxFunc>
+}
+@if (boxAdded && graphsOpened)
+{
+	<ConnectedBoxTemplate ondeletedbox="HandleOnAdded" onopenedbox="HandleOnOpened" boxName="@boxName"></ConnectedBoxTemplate>
+}
+@if (graphsOpened == false)
+{
+	<BoxGraphComponent onhidedgraph="HandleOnOpened" NameOfBox="@boxName"></BoxGraphComponent>
+}
+
+
+@code {
+
+
+
+    private bool boxAdded = true;
+
+    public bool boxDeleted = true;
+
+    private bool graphsOpened = true;
+
+    public bool graphsClosed = false;
+
+    [Parameter]
+    public string boxName { get; set; }
+
+    private void HandleOnAdded(string result)
+    {
+        switch (result)
+        {
+            case "Added":
+                boxAdded = true;
+                boxDeleted = false;
+                break;
+            case "Deleted":
+                boxAdded = false;
+                boxDeleted = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    
+
+    private void HandleOnOpened(string result)
+    {
+        switch (result)
+        {
+            case "Open":
+                graphsOpened = false;
+                graphsClosed = true;
+                boxAdded = false;
+                boxDeleted = true;
+                break;
+            case "Back":
+                graphsOpened = true;
+                graphsClosed = false;
+                boxAdded = true;
+                boxDeleted = false;
+                break;
+            default:
+                break;
+        }
+    }
+    }

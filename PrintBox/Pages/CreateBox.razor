@@ -1,0 +1,132 @@
+﻿@page "/createbox"
+@inject IBoxDataService boxdata
+
+
+
+<div class="row">
+	<div class="col-md-4">
+		<h3>Create Box</h3>
+		<EditForm Model="@box" OnValidSubmit="HandleValidSubmit">
+			<DataAnnotationsValidator/>
+			<ValidationSummary/>
+
+			<div class="form-group">
+				<label>Box Name</label>
+				<InputText @bind-Value="box.NameOfBox" class="form-control"></InputText>
+			</div>
+			<div class="form-group">
+				<label>Name of Organization</label>
+				<InputText @bind-Value="box.Organization" class="form-control"></InputText>
+			</div>
+			<div class="form-group">
+				<label>Group of Box</label>
+				<InputText @bind-Value="box.GroupName" class="form-control"></InputText>
+			</div>
+			<p></p>
+			<button class="btn btn-primary" type="submit">
+			<span class="oi oi-plus" aria-hidden="true"></span> Create Box
+			</button>
+		</EditForm>
+		</div>
+
+	<div class="row">
+	<div class="col-md-4">
+		<h3>Boxes</h3>
+		@if (Readbox == null)
+		{
+			<h4>Loading...</h4>
+		}
+		else
+		{
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Organization</th>
+						<th>Group</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					@foreach (var b in Readbox)
+					{
+						<tr>
+							<td>@b.BoxId</td>
+							<td>@b.NameOfBox</td>
+							<td>@b.Organization</td>
+							<td>@b.GroupName</td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+		}
+	</div>
+
+	<div class="col-md-4">
+		<h3>Box Data </h3>
+		@if (ReadboxData == null)
+		{
+			<h4>Loading...</h4>
+		}
+		else
+		{
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Led State</th>
+						<th>Door State</th>
+						<th>Temperature</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					@foreach (var b in ReadboxData)
+					{
+						<tr>
+							<td>@b.Id</td>
+							<td>@b.NameOfBox</td>
+							<td>@b.Led</td>
+							<td>@b.Door</td>
+							<td>@b.Tamperature</td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+		}
+	</div>
+	</div>
+</div>
+
+@code {
+	private IBoxModel box = new DisplayBoxModel(); 
+
+		private async void HandleValidSubmit()
+	{
+		await boxdata.CreateBox(box);
+		box = new DisplayBoxModel();
+	}
+
+		private IBoxDataModel boxd = new DisplayBoxDataModel(); 
+
+		private async void HandleValidSubmitData()
+	{
+		await boxdata.CreateData(boxd);
+		boxd = new DisplayBoxDataModel();
+	}
+
+	private List<IBoxModel> Readbox;
+	private List<IBoxDataModel> ReadboxData;
+    protected override async Task OnParametersSetAsync()
+    {
+        Readbox = await boxdata.ReadBox();
+		ReadboxData = await boxdata.ReadBoxData();
+    }
+
+		
+
+}

@@ -1,0 +1,126 @@
+﻿@page "/boxer"
+@page "/boxer/{BoxName}"
+@inject IBoxDataService boxdata
+@using PrintBox.Pages.Components.LedButtonState
+@if(ReadboxStates == null)
+{
+	<h4>Loading...</h4>
+
+}
+else{
+<h3>@ReadboxStates.BoxId</h3>
+
+<div class="row">
+	<div class="col-md-4">
+<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led1State" LedNum="1"></LedButtonTemplate>
+
+<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led2State" LedNum="2"></LedButtonTemplate>
+
+<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led3State" LedNum="3"></LedButtonTemplate>
+
+<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4"></LedButtonTemplate>
+
+<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led5State" LedNum="5"></LedButtonTemplate>
+
+<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led6State" LedNum="6"></LedButtonTemplate>
+
+<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led7State" LedNum="7"></LedButtonTemplate>
+
+</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<h3>Boxes</h3>
+		@if (ReadboxStates == null)
+		{
+			<h4>Loading...</h4>
+		}
+		else
+		{
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Led 1</th>
+						<th>Led 2</th>
+						<th>Led 3</th>
+						<th>Led 4</th>
+						<th>Led 5</th>
+						<th>Led 6</th>
+						<th>Led 7</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+						<tr>
+
+							<td>@ReadboxStates.BoxId</td>
+							@if(ReadboxStates.Led1State == false)
+							{<td class="text-danger">@ReadboxStates.Led1State</td>}
+							else{<td class="text-primary">@ReadboxStates.Led1State</td>}
+
+							@if(ReadboxStates.Led2State == false){<td class="text-danger">@ReadboxStates.Led2State</td>}
+							else{<td class="text-primary">@ReadboxStates.Led2State</td>}
+
+							@if(ReadboxStates.Led3State == false){<td class="text-danger">@ReadboxStates.Led3State</td>}
+							else{<td class="text-primary">@ReadboxStates.Led3State</td>}
+
+							@if(ReadboxStates.Led4State == false){<td class="text-danger">@ReadboxStates.Led4State</td>}
+							else{<td class="text-primary">@ReadboxStates.Led4State</td>}
+
+							@if(ReadboxStates.Led5State == false){<td class="text-danger">@ReadboxStates.Led5State</td>}
+							else{<td class="text-primary">@ReadboxStates.Led5State</td>}
+
+							@if(ReadboxStates.Led6State == false){<td class="text-danger">@ReadboxStates.Led6State</td>}
+							else{<td class="text-primary">@ReadboxStates.Led6State</td>}
+
+							@if(ReadboxStates.Led7State == false){<td class="text-danger">@ReadboxStates.Led7State</td>}
+							else{<td class="text-primary">@ReadboxStates.Led7State</td>}
+						</tr>
+
+
+				</tbody>
+			</table>
+		}
+	</div>
+</div>
+
+
+}
+
+
+
+@code {
+	[Parameter]
+	public string BoxName { get; set; }
+
+	[Parameter]
+	public EventCallback<IBoxStateModel> OnUpdate { get; set; }
+
+	private string Name;
+
+	private IBoxStateModel ReadboxStates;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		Name = BoxName;
+		var b = await boxdata.ReadState(BoxName);
+
+		ReadboxStates = new DisplayBoxStateModel
+			{
+				BoxId = b.BoxId,
+				Led1State = b.Led1State,
+				Led2State = b.Led2State,
+				Led3State = b.Led3State,
+				Led4State = b.Led4State,
+				Led5State = b.Led5State,
+				Led6State = b.Led6State,
+				Led7State = b.Led7State,
+				DoorState = b.DoorState
+			};
+	}
+
+
+}

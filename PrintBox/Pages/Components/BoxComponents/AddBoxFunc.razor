@@ -1,0 +1,21 @@
+﻿<button class="btn btn-outline-primary mx-2" @onclick="AddBoxFunction">
+    <span class="oi oi-chevron-bottom"></span> @boxName
+</button>
+    
+
+@code {
+
+    [Parameter]
+    public EventCallback<string> onaddedbox { get; set; }
+
+    [Parameter]
+    public string boxName { get; set; }
+
+    private void AddBoxFunction()
+    {
+        onaddedbox.InvokeAsync("Added");
+        
+    }
+
+    
+}

@@ -1,0 +1,148 @@
+﻿
+@inject IBoxDataService boxdata
+
+<div>
+	<label>Led @LedNum</label>
+	@if (@LedState == true)
+	{
+		<div class="row my-2">
+			<div class="col-md-2 mx-2">
+				<button class="btn btn-outline-success" @onclick="SetStateFunction">
+					<span class="oi oi-contrast" aria-hidden="true"></span> High
+				</button>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="row my-2">
+			<div class="col-md-2 mx-2">
+				<button class="btn btn-outline-danger" @onclick="SetStateFunction">
+					<span class="oi oi-contrast" aria-hidden="true"></span> Low
+				</button>
+			</div>
+		</div>
+	}
+</div>
+
+
+
+@code {
+	[Parameter]
+	public string boxname { get; set; }
+
+	[Parameter]
+	public Boolean LedState { get; set; }
+
+	[Parameter]
+	public int LedNum { get; set; }
+
+	private string name;
+
+
+
+	private IBoxStateModel ReadboxStates;
+
+	protected override async Task OnParametersSetAsync()
+	{
+
+		var b = await boxdata.ReadState(boxname);
+
+		ReadboxStates = new DisplayBoxStateModel
+			{
+				BoxId = b.BoxId,
+				Led1State = b.Led1State,
+				Led2State = b.Led2State,
+				Led3State = b.Led3State,
+				Led4State = b.Led4State,
+				Led5State = b.Led5State,
+				Led6State = b.Led6State,
+				Led7State = b.Led7State,
+				DoorState = b.DoorState
+			};
+	}
+
+
+	private async Task HandleUpdateState()
+	{
+		await boxdata.UpdateState(ReadboxStates);
+		//boxdata.UpdateStateText(ReadboxStates, ReadboxStates.BoxId, ReadboxStates.Led1State, ReadboxStates.Led2State, ReadboxStates.Led3State, ReadboxStates.Led4State, ReadboxStates.Led5State, ReadboxStates.Led6State, ReadboxStates.Led7State);
+	}
+
+
+
+
+
+	private async Task SetStateFunction(){
+		if (LedState == true)
+		{
+			LedState = false;
+
+			switch (LedNum)
+			{
+				case 1:
+					ReadboxStates.Led1State = false;
+					break;
+				case 2:
+					ReadboxStates.Led2State = false;
+					break;
+				case 3:
+					ReadboxStates.Led3State = false;
+					break;
+				case 4:
+					ReadboxStates.Led4State = false;
+					break;
+				case 5:
+					ReadboxStates.Led5State = false;
+					break;
+				case 6:
+					ReadboxStates.Led6State = false;
+					break;
+				case 7:
+					ReadboxStates.Led7State = false;
+					break;
+				default:
+					break;
+			}
+		}
+		else
+		{
+			LedState = true;
+
+			switch (LedNum)
+			{
+				case 1:
+					ReadboxStates.Led1State = true;
+					break;
+				case 2:
+					ReadboxStates.Led2State = true;
+					break;
+				case 3:
+					ReadboxStates.Led3State = true;
+					break;
+				case 4:
+					ReadboxStates.Led4State = true;
+					break;
+				case 5:
+					ReadboxStates.Led5State = true;
+					break;
+				case 6:
+					ReadboxStates.Led6State = true;
+					break;
+				case 7:
+					ReadboxStates.Led7State = true;
+					break;
+				default:
+					break;
+			}
+
+		}
+		await boxdata.UpdateState(ReadboxStates);
+		
+		var b = await boxdata.ReadState(boxname);
+
+    }
+}
+
+
+
