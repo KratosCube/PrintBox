@@ -5,35 +5,49 @@
 @using System.Globalization
 @using PrintBox.Pages.Components.BoxComponents
 
-<h1>Set up your PrintControl</h1>
+<MudGrid>
+	<MudItem xs="12" Class="align-content-center">
 
-<div class="row px-3">
+		<MudText Align="Align.Center"><h1>Set up your PrintControl</h1></MudText>
+	</MudItem>
 
-	@if (box == null)
-	{
-		<h4>Loading...</h4>
-	}
-	else
-	{
-		@foreach (var b in box)
-		{
-			<div class="col-md-4 p-3">
-				<BoxOnPage boxName="@b.NameOfBox"></BoxOnPage>
-			</div>
-		}
-	}
+	<MudItem xs="12" sm="6" md="12" Class="align-content-center">
+		<MudGrid>
+			@if (box == null)
+			{
+				<MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+			}
+			else
+			{
 
-	
-	
-</div>
+
+				@foreach (var b in box)
+				{
+					<MudItem xs="12" Class="ma=3" md="4">
+						<BoxOnPage boxName="@b.NameOfBox"></BoxOnPage>
+					</MudItem>
+				}
+			}
+		</MudGrid>
+	</MudItem>
+</MudGrid>
+
+
+
+
+
+
+
+
+
 @code {
-	    private List<IBoxModel> box;
+	private List<IBoxModel> box;
 
-    protected override async Task OnParametersSetAsync()
-    {
-        box = await boxdata.ReadBox();
-    }
+	protected override async Task OnParametersSetAsync()
+	{
+		box = await boxdata.ReadBox();
+	}
 
-	
+
 
 }

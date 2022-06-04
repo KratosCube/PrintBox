@@ -35,7 +35,7 @@ namespace SupportLibrary.Data
                 boxdata.NameOfBox,
                 boxdata.Door,
                 boxdata.LedIntensity,
-                boxdata.Tamperature
+                boxdata.Temperature
             };
             await _dataAccess.SaveData("dbo.spBox_CreateData", b, "SQLDB");
         }

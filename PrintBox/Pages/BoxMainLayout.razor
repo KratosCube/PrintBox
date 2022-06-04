@@ -2,26 +2,214 @@
 @page "/boxer/{BoxName}"
 @inject IBoxDataService boxdata
 @using PrintBox.Pages.Components.LedButtonState
-@if(ReadboxStates == null)
+
+
+
+
+
+<MudContainer Class="mt-8" MaxWidth="MaxWidth.Medium">
+	@if (ReadboxStates == null)
+	{
+		<MudSkeleton Animation="Animation.Wave" />
+
+	}
+	else
+	{
+		<MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">@ReadboxStates.BoxId</MudText>
+	}
+	<MudGrid Spacing="6" Class="mt-16">
+		<MudItem xs="7">
+			<MudText Typo="Typo.h5" GutterBottom="true">Led Highlight</MudText>
+			<MudGrid>
+				@if (ReadboxStates == null)
+				{
+					<MudSkeleton Animation="Animation.Wave" />
+
+				}
+				else
+				{
+					<MudItem xs="12">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led1State" LedNum="1"></LedButtonTemplate>
+					</MudItem>
+
+					<MudItem xs="12">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led2State" LedNum="2"></LedButtonTemplate>
+					</MudItem>
+
+					<MudItem xs="12">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led3State" LedNum="3"></LedButtonTemplate>
+					</MudItem>
+
+					<MudItem xs="12">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4"></LedButtonTemplate>
+					</MudItem>
+				}
+			</MudGrid>
+		</MudItem>
+
+
+		<MudItem xs="5">
+			<MudText Typo="Typo.h5" GutterBottom="true">Led Intentity</MudText>
+			<MudPaper  Class="d-flex flex-column justify-center" Style="height:100%;" Outlined="true">
+				@if (lastdata == null)
+				{
+					<MudSkeleton Animation="Animation.Wave" />
+				}
+				else
+				{
+					<MudSlider Size="Size.Large"  Vertical="true" Min="0" Max="100" @bind-Value="value" />
+					<MudText Align="Align.Center"><h3>@value %</h3></MudText>
+				}
+			</MudPaper>
+		</MudItem>
+	</MudGrid>
+</MudContainer>
+
+
+
+
+@*
+@if (ReadboxStates == null)
 {
 	<h4>Loading...</h4>
 
 }
-else{
-<h3>@ReadboxStates.BoxId</h3>
+else
+{
+	<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+		<MudText Align="Align.Center"><h1>@ReadboxStates.BoxId</h1></MudText>
+	</MudContainer>
+}
 
-<div class="row">
-	<div class="col-md-4">
-<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led1State" LedNum="1"></LedButtonTemplate>
 
-<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led2State" LedNum="2"></LedButtonTemplate>
 
-<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led3State" LedNum="3"></LedButtonTemplate>
 
-<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4"></LedButtonTemplate>
 
-</div>
-</div>
+
+
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+
+
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+	<MudGrid>
+
+
+		<MudItem xs="12" sm="6" md="12" Class="align-content-center">
+
+			<MudGrid>
+				@if (ReadboxStates == null)
+				{
+					<h4>Loading...</h4>
+
+				}
+				else
+				{
+
+
+					<MudItem xs="12" Class="align-content-center">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led1State" LedNum="1"></LedButtonTemplate>
+					</MudItem>
+
+					<MudItem xs="12" Class="align-content-center">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led2State" LedNum="2"></LedButtonTemplate>
+					</MudItem>
+
+					<MudItem xs="12" Class="align-content-center">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led3State" LedNum="3"></LedButtonTemplate>
+					</MudItem>
+
+					<MudItem xs="12" Class="align-content-center">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4"></LedButtonTemplate>
+					</MudItem>
+
+
+
+
+
+
+
+					<div class="row">
+						<div class="col-md-4">
+							<h3>Boxes</h3>
+							@if (ReadboxStates == null)
+							{
+								<h4>Loading...</h4>
+							}
+							else
+							{
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Led 1</th>
+											<th>Led 2</th>
+											<th>Led 3</th>
+											<th>Led 4</th>
+										</tr>
+									</thead>
+									<tbody>
+
+
+										<tr>
+
+											<td>@ReadboxStates.BoxId</td>
+											@if (ReadboxStates.Led1State == false)
+											{
+												<td class="text-danger">@ReadboxStates.Led1State</td>
+											}
+											else
+											{
+												<td class="text-primary">@ReadboxStates.Led1State</td>
+											}
+
+											@if (ReadboxStates.Led2State == false)
+											{
+												<td class="text-danger">@ReadboxStates.Led2State</td>
+											}
+											else
+											{
+												<td class="text-primary">@ReadboxStates.Led2State</td>
+											}
+
+											@if (ReadboxStates.Led3State == false)
+											{
+												<td class="text-danger">@ReadboxStates.Led3State</td>
+											}
+											else
+											{
+												<td class="text-primary">@ReadboxStates.Led3State</td>
+											}
+
+											@if (ReadboxStates.Led4State == false)
+											{
+												<td class="text-danger">@ReadboxStates.Led4State</td>
+											}
+											else
+											{
+												<td class="text-primary">@ReadboxStates.Led4State</td>
+											}
+										</tr>
+
+
+									</tbody>
+								</table>
+							}
+						</div>
+					</div>
+
+
+				}
+
+			</MudGrid>
+		</MudItem>
+	</MudGrid>
+
+</MudContainer>
+<MudContainer>
 	@if (lastdata == null)
 	{
 		<h4>Loading...</h4>
@@ -29,63 +217,20 @@ else{
 	}
 	else
 	{
-		<div class="row">
+
 			<h2>Led Intensity</h2>
-			<div class="col-md-4">
-				<label><span class="d-block mt-3 mb-1">Value</span><RadzenSlider Min="+0" Max="100" @bind-Value=@value Style="width: 200px;" /></label>
-				<h3>@value %</h3>
-			</div>
-		</div>
+			<MudSlider Size="Size.Large" Vertical="true" Min="0" Max="100" @bind-Value="value" />
+			<MudText Align="Align.Center"><h3>@value %</h3></MudText>
+
 	}
-
-<div class="row">
-	<div class="col-md-4">
-		<h3>Boxes</h3>
-		@if (ReadboxStates == null)
-		{
-			<h4>Loading...</h4>
-		}
-		else
-		{
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Led 1</th>
-						<th>Led 2</th>
-						<th>Led 3</th>
-						<th>Led 4</th>
-					</tr>
-				</thead>
-				<tbody>
+</MudContainer>
+</MudContainer>
 
 
-						<tr>
 
-							<td>@ReadboxStates.BoxId</td>
-							@if(ReadboxStates.Led1State == false)
-							{<td class="text-danger">@ReadboxStates.Led1State</td>}
-							else{<td class="text-primary">@ReadboxStates.Led1State</td>}
-
-							@if(ReadboxStates.Led2State == false){<td class="text-danger">@ReadboxStates.Led2State</td>}
-							else{<td class="text-primary">@ReadboxStates.Led2State</td>}
-
-							@if(ReadboxStates.Led3State == false){<td class="text-danger">@ReadboxStates.Led3State</td>}
-							else{<td class="text-primary">@ReadboxStates.Led3State</td>}
-
-							@if(ReadboxStates.Led4State == false){<td class="text-danger">@ReadboxStates.Led4State</td>}
-							else{<td class="text-primary">@ReadboxStates.Led4State</td>}
-						</tr>
+*@
 
 
-				</tbody>
-			</table>
-		}
-	</div>
-</div>
-
-
-}
 
 
 
@@ -115,6 +260,6 @@ else{
 				DoorState = b.DoorState
 			};
 	}
-	double value = 100;
+	int value = 100;
 
 }

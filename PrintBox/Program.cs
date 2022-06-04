@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using PrintBox.Data;
 using SupportLibrary.Data;
 using SupportLibrary.DataAccess;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<IBoxDataService, BoxSqlDataService>();
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 

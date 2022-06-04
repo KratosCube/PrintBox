@@ -1,0 +1,10 @@
+﻿<MudDrawer Elevation="3">
+     <MudIconButton Icon="@Icons.Material.Filled.Menu"Color="Color.Inherit"Edge="Edge.Start"
+                           OnClick=" async ()=>await OnSidebarToggled.InvokeAsync()"/>
+     <MudSpacer/>
+</MudDrawer>
+@code{
+     [Parameter]
+     public EventCallback OnSidebarToggled{get;set;}
+}
+

@@ -8,15 +8,15 @@ namespace PrintBox.Models
         [Required]
         public string NameOfBox { get; set; }
         [Required]
-        public float Humidity { get; set; }
+        public decimal Humidity { get; set; }
         [Required]
-        public float Tamperature { get; set; }
+        public decimal Temperature { get; set; }
         [Required]
         public string Door { get; set; }
         [Required]
         public int LedIntensity { get; set; }
         [Required]
-        public float FanSpeed { get; set; }
+        public decimal FanSpeed { get; set; }
         public int Id { get; set; }
         public DateTime Time_recieved { get; set; }
     }

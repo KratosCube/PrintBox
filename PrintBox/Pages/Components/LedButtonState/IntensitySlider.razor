@@ -1,0 +1,53 @@
+﻿@inject IBoxDataService boxdata
+
+@if (ReadboxStates == null)
+{
+	<MudSkeleton Animation="Animation.Wave" />
+}
+else
+{
+	<MudSlider Class="" Size="Size.Large" Vertical="true" Min="0" Max="100" @bind-Value="value" @onchange="HandleUpdateState" role="slider" />
+	<MudText Align="Align.Center"><h3>@value %</h3></MudText>
+}
+
+
+
+@code {
+	int value = 0;
+
+	[Parameter]
+	public string boxname { get; set; }
+
+	private IBoxStateModel ReadboxStates;
+
+
+	protected override async Task OnParametersSetAsync()
+	{
+
+		var b = await boxdata.ReadState(boxname);
+
+		ReadboxStates = new DisplayBoxStateModel
+			{
+				BoxId = b.BoxId,
+				Led1State = b.Led1State,
+				Led2State = b.Led2State,
+				Led3State = b.Led3State,
+				Led4State = b.Led4State,
+				LedIntensity = b.LedIntensity,
+				DoorState = b.DoorState
+			};
+	}
+
+
+
+
+	private async Task HandleUpdateState()
+	{
+		ReadboxStates.LedIntensity = value;
+		await boxdata.UpdateState(ReadboxStates);
+	}
+
+
+	
+		
+}

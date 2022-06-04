@@ -8,6 +8,7 @@
         bool Led2State { get; set; }
         bool Led3State { get; set; }
         bool Led4State { get; set; }
+        int LedIntensity { get; set; }
         bool DoorState { get; set; }
 
     }

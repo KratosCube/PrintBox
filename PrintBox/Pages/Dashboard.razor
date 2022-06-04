@@ -1,0 +1,161 @@
+﻿@page "/Dashboard/{BoxName}"
+@inject IBoxDataService boxdata
+@using PrintBox.Pages.Components.LedButtonState
+<MudContainer MaxWidth="MaxWidth.False">
+
+	<MudGrid>
+		<MudItem xs="12" sm="6" md="4">
+			<MudPaper Elevation="2" Class="pa-4" Style="height: 200px;">
+				<MudText Align="Align.Center"><h2>@BoxName</h2></MudText>
+			</MudPaper>
+		</MudItem>
+		<MudItem xs="12" sm="6" md="4">
+			<MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+		</MudItem>
+		<MudItem xs="12" sm="12" md="4">
+			<MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+		</MudItem>
+
+		<MudItem xs="12" sm="2">
+			<MudPaper Elevation="2">
+				<IntensitySlider boxname="@BoxName"></IntensitySlider>
+			</MudPaper>
+		</MudItem>
+
+		<MudItem xs="12" sm="2">
+			<MudPaper Elevation="2" Class="pa-4 d-flex justify-center flex-grow-1 gap-4" Style="height: 100%">
+				@if (ReadboxStates == null)
+				{
+					<MudSkeleton Animation="Animation.Wave" />
+
+				}
+				else
+				{
+					<MudStack Class="pa-4 d-flex justify-center flex-grow-1 gap-4">
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led1State" LedNum="1" />
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led2State" LedNum="2" />
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led3State" LedNum="3" />
+						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4" />
+					</MudStack>
+				}
+			</MudPaper>
+		</MudItem>
+
+		<MudItem xs="12" sm="8">
+
+			<MudGrid>
+				<MudItem xs="12">
+					<MudPaper Elevation="2" Class="pa-4" Style="height: 100%">
+						<MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="350px"></MudChart>
+					</MudPaper>
+				</MudItem>
+				<MudItem xs="12">
+					<MudPaper Elevation="2" Class="pa-4" Style="height: 100%">
+						@if (lastdata == null)
+						{
+							<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+						}
+						else
+						{
+
+
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>NameOfBox</th>
+										<th>Humidity</th>
+										<th>Temperature</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									@foreach (var b in lastdata)
+									{
+										<tr>
+											<td>@b.Id</td>
+											<td>@b.NameOfBox</td>
+											<td>@b.Humidity</td>
+											<td>@b.Temperature</td>
+										</tr>
+									}
+
+								</tbody>
+							</table>
+						}
+					</MudPaper>
+				</MudItem>
+			</MudGrid>
+
+
+		</MudItem>
+	</MudGrid>
+</MudContainer>
+
+
+
+
+
+
+
+
+
+@code {
+
+	[Parameter]
+	public string BoxName { get; set; }
+
+	[Parameter]
+	public EventCallback<IBoxStateModel> OnUpdate { get; set; }
+
+	private string Name;
+
+	private IBoxStateModel ReadboxStates;
+	private List<IBoxDataModel> lastdata;
+	protected override async Task OnParametersSetAsync()
+	{
+		Name = BoxName;
+		var b = await boxdata.ReadState(BoxName);
+		lastdata = await boxdata.ReadLastXData(5);
+		ReadboxStates = new DisplayBoxStateModel
+			{
+				BoxId = b.BoxId,
+				Led1State = b.Led1State,
+				Led2State = b.Led2State,
+				Led3State = b.Led3State,
+				Led4State = b.Led4State,
+				LedIntensity = b.LedIntensity,
+				DoorState = b.DoorState
+			};
+	}
+
+	int value = 100;
+
+
+	private int Index = -1; //default value cannot be 0 -> first selectedindex is 0.
+
+	public List<ChartSeries> Series = new List<ChartSeries>()
+	{
+		new ChartSeries() { Name = "Series 1", Data = new double[] { 90, 79, 72, 69, 62, 62, 55, 65, 70 } },
+		new ChartSeries() { Name = "Series 2", Data = new double[] { 10, 41, 35, 51, 49, 62, 69, 91, 148 } },
+	};
+	public string[] XAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep" };
+
+	Random random = new Random();
+	public void RandomizeData()
+	{
+		var new_series = new List<ChartSeries>()
+		{
+			new ChartSeries() { Name = "Series 1", Data = new double[9] },
+			new ChartSeries() { Name = "Series 2", Data = new double[9] },
+		};
+		for (int i = 0; i < 9; i++)
+		{
+			new_series[0].Data[i] = random.NextDouble() * 100;
+			new_series[1].Data[i] = random.NextDouble() * 100;
+		}
+		Series = new_series;
+		StateHasChanged();
+	}
+
+}

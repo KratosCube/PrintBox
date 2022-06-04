@@ -1,6 +1,56 @@
 ﻿@inherits LayoutComponentBase
 
+<MudThemeProvider Theme="_lightTheme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
 <PageTitle>PrintBox</PageTitle>
+
+
+@*<MudLayout>
+     <NavMenu></NavMenu>
+     <MudMainContent Class="pt-16 px-16">
+           <MudContainer class="mt-6">
+                 
+           </MudContainer>
+     </MudMainContent>
+</MudLayout>*@
+
+
+
+
+<MudLayout>
+	<MudDrawer @bind-Open="@open" Fixed="true" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true" Class="align-self-center">
+        <MudSpacer/>
+		<MudNavMenu>
+			<MudNavLink href="" Match="NavLinkMatch.All" Icon="@Icons.Filled.Home">Home</MudNavLink>
+			<MudNavLink href="counter" Icon="@Icons.Filled.Numbers">Counter</MudNavLink>
+			<MudNavLink href="createbox" Icon="@Icons.Filled.AddBox">Create Box</MudNavLink>
+			<MudNavLink href="graph" Icon="@Icons.Filled.MultilineChart">Chart</MudNavLink>
+			<MudNavLink href="box" Icon="@Icons.Filled.Inbox">Box</MudNavLink>
+		</MudNavMenu>
+	</MudDrawer>
+
+
+
+
+	<div class="d-flex top-row px-4" >
+			<MudText Typo="Typo.h5" Color="Color.Primary">Print Box</MudText>
+            <MudSpacer/>
+            <MudAvatar Color="Color.Primary" Size="Size.Medium">P</MudAvatar>
+        </div>
+    <MudMainContent Class="mt-0">
+    <MudContainer>
+        @Body
+    </MudContainer>
+</MudMainContent>
+	</MudLayout>
+@*
+
+
+
+
+
 
 <div class="page">
     <div class="sidebar">
@@ -8,12 +58,60 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
+        <div class="">
+        </div>
+        <div class="d-flex px-4">
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
 
-        <article class="content px-4">
+        <article Style="overflow:hidden; position:relative;">
             @Body
         </article>
     </main>
-</div>
+</div>*@
+@code{
+        DrawerClipMode clipMode = DrawerClipMode.Never;
+        bool open = false;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    } 
+
+
+
+
+
+
+    MudTheme _lightTheme = new MudTheme {
+    Palette =new Palette
+
+{
+    AppbarBackground ="#000C66",
+    AppbarText="#d47526",
+    Primary="#d47526",
+    TextPrimary="#d47526",
+    Background="#0c0c0c",
+    TextSecondary="#E2EEF6",
+    DrawerBackground="#101010",
+    DrawerText="#d47526",
+    Surface="#462300",
+    ActionDefault="#2d2d30",
+    ActionDisabled="#2F678C",
+    TextDisabled="#676767"
+}
+};
+//AppbarBackground = "#0097FF",
+//				AppbarText = "#FFFFFF",
+//				Primary = "#007CD1",
+//				TextPrimary = "#FFFFFF",
+//				Background = "#001524",
+//				TextSecondary = "#E2EEF6",
+//				DrawerBackground = "#093958",
+//				DrawerText = "#FFFFFF",
+//				Surface = "#093958",
+//				ActionDefault = "#0097FF",
+//				ActionDisabled = "#2F678C",
+//				TextDisabled = "#BOBOBO",
+//			}
+}

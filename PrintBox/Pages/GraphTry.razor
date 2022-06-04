@@ -29,12 +29,14 @@ else{
             </div>
         </div>
     </div>
-
+    <button class="btn btn-danger" @onclick="Refresh">Refresh
+    </button>
     <div>
         <table class="table table-striped">
 				<thead>
 					<tr>
-						<th>Tamperature</th>
+						<th>Temperature</th>
+                        <th>Humidity</th>
 						<th>Fan</th>
 						<th>Time_recieved</th>
 					</tr>
@@ -44,7 +46,8 @@ else{
 					@foreach (var b in lastdata)
 					{
 						<tr>
-				<td>@b.Tamperature</td>
+				<td>@b.Temperature</td>
+                <td>@b.Humidity</td>
                <td>@b.FanSpeed</td>
                <td>@b.Time_recieved</td>
 						</tr>
@@ -74,55 +77,92 @@ else{
         return "°C"
         ;
     }
-
     private List<IBoxDataModel> lastdata;
+    private List<DateTime> Dates = new List<DateTime>();
+    private List<double> Temp = new List<double>();
 
 
 
-    DataItem[] revenue2019 = new DataItem[] {
-
-                //new DataItem
-                //{
-                //    Date = DateTime.Parse("2022-05-27 01:14:04.647"),
-                //    Revenue = 63.857106897561
-                //},
-                //                new DataItem
-                //{
-                //    Date = DateTime.Parse("2022-05-27 01:14:05.647"),
-                //    Revenue = 68
-                //}
-
-                //new DataItem
-                //{
-                //    Date = DateTime.Parse("2022-05-27 01:14:04.647"),
-                //    Revenue = 63.857106897561
-                //}
-
-
-        };
+    private void Refresh(){
+    
+    }
 
 
     protected override async Task OnParametersSetAsync()
     {
         lastdata = await boxdata.ReadLastXData(countOfData);
 
-
         
-        foreach(var b in lastdata)
+        foreach (var b in lastdata)
         {
-           revenue2019 = new DataItem[] {
+            Dates.Add(b.Time_recieved);
+            Temp.Add(decimal.ToDouble(b.Temperature));
+        }
+        
+    }
+    //DataItem[] revenue2019 = new DataItem[] {
+
+    //            new DataItem
+    //            {
+    //                Date = Dates[0],
+    //                Revenue = Temp[0]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[1],
+    //                Revenue = Temp[1]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[2],
+    //                Revenue = Temp[2]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[3],
+    //                Revenue = Temp[3]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[4],
+    //                Revenue = Temp[4]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[5],
+    //                Revenue = Temp[5]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[6],
+    //                Revenue = Temp[6]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[7],
+    //                Revenue = Temp[7]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[8],
+    //                Revenue = Temp[8]
+    //            },new DataItem
+    //            {
+    //                Date = Dates[9],
+    //                Revenue = Temp[9]
+    //            }};
+      DataItem[] revenue2019 = new DataItem[] {
 
                 new DataItem
                 {
-                    Date = b.Time_recieved,
-                    Revenue = (double)b.Tamperature
-                } };
-        }
+                    Date = DateTime.Parse("2022-05-27 01:14:04.647"),
+                    Revenue = 63.857106897561
+                },
+                                new DataItem
+                {
+                    Date = DateTime.Parse("2022-05-27 01:14:05.647"),
+                    Revenue = 68
+                },
+
+                new DataItem
+                {
+                    Date = DateTime.Parse("2022-05-27 01:14:06.647"),
+                    Revenue = 63.857106897561
+                }
 
 
-
-    }
-
-    
+        };  
 
 }
