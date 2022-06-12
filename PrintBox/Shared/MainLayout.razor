@@ -6,29 +6,16 @@
 
 <PageTitle>PrintBox</PageTitle>
 
-
-@*<MudLayout>
-     <NavMenu></NavMenu>
-     <MudMainContent Class="pt-16 px-16">
-           <MudContainer class="mt-6">
-                 
-           </MudContainer>
-     </MudMainContent>
-</MudLayout>*@
-
-
-
-
 <MudLayout>
-	<MudDrawer @bind-Open="@open" Fixed="true" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true" Class="align-self-center">
+	<MudDrawer @bind-Open="@open" Fixed="true" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true" Class="align-self-center" Width="150px">
         <MudSpacer/>
-		<MudNavMenu>
-			<MudNavLink href="" Match="NavLinkMatch.All" Icon="@Icons.Filled.Home">Home</MudNavLink>
-			<MudNavLink href="counter" Icon="@Icons.Filled.Numbers">Counter</MudNavLink>
-			<MudNavLink href="createbox" Icon="@Icons.Filled.AddBox">Create Box</MudNavLink>
-			<MudNavLink href="graph" Icon="@Icons.Filled.MultilineChart">Chart</MudNavLink>
-			<MudNavLink href="box" Icon="@Icons.Filled.Inbox">Box</MudNavLink>
+		<MudNavMenu Rounded>
+			<MudNavLink href="" Match="NavLinkMatch.All" Icon="@Icons.Filled.Home" IconColor="Color.Primary" >Home</MudNavLink>
+			<MudNavLink href="createbox" Icon="@Icons.Filled.AddBox" IconColor="Color.Primary">Create Box</MudNavLink>
+			<MudNavLink href="graph" Icon="@Icons.Filled.MultilineChart" IconColor="Color.Primary">Chart</MudNavLink>
+			<MudNavLink href="box" Icon="@Icons.Filled.Inbox" IconColor="Color.Primary">Box</MudNavLink>
 		</MudNavMenu>
+        <MudSpacer/>
 	</MudDrawer>
 
 
@@ -37,7 +24,7 @@
 	<div class="d-flex top-row px-4" >
 			<MudText Typo="Typo.h5" Color="Color.Primary">Print Box</MudText>
             <MudSpacer/>
-            <MudAvatar Color="Color.Primary" Size="Size.Medium">P</MudAvatar>
+            <MudAvatar Color="Color.Warning" Size="Size.Medium">P</MudAvatar>
         </div>
     <MudMainContent Class="mt-0">
     <MudContainer>
@@ -89,13 +76,13 @@
 {
     AppbarBackground ="#000C66",
     AppbarText="#d47526",
-    Primary="#d47526",
-    TextPrimary="#d47526",
-    Background="#0c0c0c",
-    TextSecondary="#E2EEF6",
-    DrawerBackground="#101010",
-    DrawerText="#d47526",
-    Surface="#462300",
+    Primary="#ffffff",
+    TextPrimary="#ffffff",
+    Background="#e1e1e1",
+    TextSecondary="#004454",
+    DrawerBackground="#02718c",
+    DrawerText="#ffffff",
+    Surface="#0089a9",
     ActionDefault="#2d2d30",
     ActionDisabled="#2F678C",
     TextDisabled="#676767"

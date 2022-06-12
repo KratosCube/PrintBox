@@ -6,8 +6,17 @@
 }
 else
 {
-	<MudSlider Class="" Size="Size.Large" Vertical="true" Min="0" Max="100" @bind-Value="value" @onchange="HandleUpdateState" role="slider" />
-	<MudText Align="Align.Center"><h3>@value %</h3></MudText>
+	<MudPaper  Style="height: 100%">
+		
+				<MudStack Class="d-flex justify-center flex-grow-1" Spacing="4" Style="height:100%;">
+						<MudText Align="Align.Center"><h3>Led Intensity</h3></MudText>
+						<MudSlider Class=" d-flex justify-center flex-grow-1" Style="@($" color:{Colors.BlueGrey.Darken2};")" Size="Size.Large" Vertical="true" Min="0" Max="100" @bind-Value="value" @onchange="HandleUpdateState"  />
+	
+						<MudText Align="Align.Center"><h3>@value %</h3></MudText>
+					</MudStack>
+	
+			
+	</MudPaper>
 }
 
 
@@ -23,7 +32,7 @@ else
 
 	protected override async Task OnParametersSetAsync()
 	{
-
+		
 		var b = await boxdata.ReadState(boxname);
 
 		ReadboxStates = new DisplayBoxStateModel
@@ -36,6 +45,7 @@ else
 				LedIntensity = b.LedIntensity,
 				DoorState = b.DoorState
 			};
+			value = ReadboxStates.LedIntensity;
 	}
 
 
@@ -47,7 +57,7 @@ else
 		await boxdata.UpdateState(ReadboxStates);
 	}
 
-
+	
 	
 		
 }

@@ -4,23 +4,23 @@
 
 	@if (@LedState == true)
 	{
-		<MudPaper Class="pa-3" Style="@($" background:{Colors.Amber.Darken2};")">
+		<MudPaper Class="pa-3" Style="@($" background:#F57F17;")">
 			<div class="row ma-2">
 				<div class=" mx-2 pa-2">
 					<MudText Align="Align.Center"><h4>Led @LedNum</h4></MudText>
-					<MudIconButton Icon="@Icons.Filled.Lightbulb" Color="Color.Dark" Style="@($" background:{Colors.Yellow.Darken1};")" @onclick="SetStateFunction" Size="Size.Large" />
+					<MudIconButton Icon="@Icons.Filled.Lightbulb" Color="Color.Dark" Style="@($" background:#00c4ff;")" @onclick="SetStateFunction" Size="Size.Large" />
 				</div>
 			</div>
 		</MudPaper>
 	}
 	else
 	{
-		<MudPaper Class="pa-3" Style="@($" background:#212121;")">
+		<MudPaper Class="pa-3" Style="@($" background:#0043ff;")">
 			<div class="row ma-2">
 
 				<div class=" mx-2 pa-2">
-					<MudText Align="Align.Center"><h4>Led @LedNum</h4></MudText>
-					<MudIconButton Icon="@Icons.Outlined.Lightbulb" Color="Color.Dark" Style="@($" background:#000000;")" @onclick="SetStateFunction" Size="Size.Large" />
+					<MudText Align="Align.Center" ><h4>Led @LedNum</h4></MudText>
+					<MudIconButton Icon="@Icons.Outlined.Lightbulb" Color="Color.Dark" Style="@($" background:#001f2a;")" @onclick="SetStateFunction" Size="Size.Large" />
 				</div>
 			</div>
 		</MudPaper>

@@ -7,6 +7,7 @@ namespace SupportLibrary.Data
         Task CreateBox(IBoxModel box);
         Task CreateData(IBoxDataModel boxdata);
         Task<List<IBoxModel>> ReadBox();
+        Task<IBoxModel> ReadBoxByName(string NameOfBox);
         Task<List<IBoxDataModel>> ReadBoxData();
         Task<List<IBoxDataModel>> ReadLastXData(int rowscount);
         Task<IBoxStateModel> ReadState(string boxid);

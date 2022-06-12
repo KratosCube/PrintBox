@@ -64,6 +64,14 @@ namespace SupportLibrary.Data
             return box.FirstOrDefault();
         }
 
+        public async Task<IBoxModel> ReadBoxByName(string NameOfBox)
+        {
+            var box = await _dataAccess.LoadData<BoxModel, dynamic>("dbo.spBox_ReadDataByName",
+                                                                    new { NameOfBox = NameOfBox },
+                                                                    "SQLDB");
+            return box.FirstOrDefault();
+        }
+
         public async Task UpdateState(IBoxStateModel box)
         {
             await _dataAccess.SaveData("dbo.spBox_UpdateStates", box, "SQLDB");
