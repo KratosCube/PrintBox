@@ -4,7 +4,7 @@
 
 	@if (@LedState == true)
 	{
-		<MudPaper Class="pa-3" Style="@($" background:#F57F17;")">
+		<MudPaper Class="pa-3" Style="@($" background:#0b93b3;")">
 			<div class="row ma-2">
 				<div class=" mx-2 pa-2">
 					<MudText Align="Align.Center"><h4>Led @LedNum</h4></MudText>
@@ -15,9 +15,9 @@
 	}
 	else
 	{
-		<MudPaper Class="pa-3" Style="@($" background:#0043ff;")">
+		<MudPaper Class="pa-3" Style="@($" background:#004c5e;")">
 			<div class="row ma-2">
-
+				
 				<div class=" mx-2 pa-2">
 					<MudText Align="Align.Center" ><h4>Led @LedNum</h4></MudText>
 					<MudIconButton Icon="@Icons.Outlined.Lightbulb" Color="Color.Dark" Style="@($" background:#001f2a;")" @onclick="SetStateFunction" Size="Size.Large" />

@@ -8,9 +8,9 @@ else
 {
 	<MudPaper  Style="height: 100%">
 		
-				<MudStack Class="d-flex justify-center flex-grow-1" Spacing="4" Style="height:100%;">
+				<MudStack Class="d-flex justify-center" Spacing="4" Style="height:100%;">
 						<MudText Align="Align.Center"><h3>Led Intensity</h3></MudText>
-						<MudSlider Class=" d-flex justify-center flex-grow-1" Style="@($" color:{Colors.BlueGrey.Darken2};")" Size="Size.Large" Vertical="true" Min="0" Max="100" @bind-Value="value" @onchange="HandleUpdateState"  />
+						<MudSlider Class=" d-flex justify-center" Style="@($" color:{Colors.BlueGrey.Darken2};")" Size="Size.Large" TickMarks="true" Step="25" Vertical="true" Min="0" Max="100" @bind-Value="value" @onchange="HandleUpdateState"  />
 	
 						<MudText Align="Align.Center"><h3>@value %</h3></MudText>
 					</MudStack>
@@ -22,7 +22,7 @@ else
 
 
 @code {
-	int value = 0;
+	int value;
 
 	[Parameter]
 	public string boxname { get; set; }
@@ -55,6 +55,18 @@ else
 	{
 		ReadboxStates.LedIntensity = value;
 		await boxdata.UpdateState(ReadboxStates);
+		var b = await boxdata.ReadState(boxname);
+		ReadboxStates = new DisplayBoxStateModel
+			{
+				BoxId = b.BoxId,
+				Led1State = b.Led1State,
+				Led2State = b.Led2State,
+				Led3State = b.Led3State,
+				Led4State = b.Led4State,
+				LedIntensity = b.LedIntensity,
+				DoorState = b.DoorState
+			};
+			value = ReadboxStates.LedIntensity;
 	}
 
 	

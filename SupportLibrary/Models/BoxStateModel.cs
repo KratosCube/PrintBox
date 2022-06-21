@@ -14,6 +14,7 @@ namespace SupportLibrary.Models
         public Boolean Led3State { get; set; }
         public Boolean Led4State { get; set; }
         public int LedIntensity { get; set; }
+        public int FanSpeed { get; set; }
         public Boolean DoorState { get; set; }
 
     }

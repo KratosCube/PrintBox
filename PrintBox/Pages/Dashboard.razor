@@ -3,96 +3,113 @@
 @using PrintBox.Pages.Components.LedButtonState
 @using System.Globalization
 @if (ReadboxStates == null)
-	{
-<PageTitle>@BoxName</PageTitle>
+{
+	<PageTitle>@BoxName</PageTitle>
 }
-else{
-<MudContainer MaxWidth="MaxWidth.False">
-	@if (ReadboxStates == null)
-	{
-		
-				<MudText Align="Align.Center"><h4>Loading...</h4></MudText>
+else
+{
+	<MudContainer MaxWidth="MaxWidth.False">
+		@if (ReadboxStates == null)
+		{
+
+			<MudText Align="Align.Center"><h4>Loading...</h4></MudText>
 		}
-	else{
-	<MudGrid>
-		<MudItem xs="12" sm="6" md="3">
-			<MudPaper Elevation="8" Class="pa-4 px-16" Style="height: 130px;">
-				<MudText ><h2></h2></MudText>
-				<MudText Align="Align.Center"><h2>@BoxName</h2></MudText>
-			</MudPaper>
-		</MudItem>
-
-		<MudItem xs="12" sm="6" md="3">
-			<MudPaper Elevation="8" Class="pa-4 px-8" Style="height: 130px;">
-				<MudText Align="Align.Center"><h3>Humidity Info</h3></MudText>
-				<MudText ><h4>Id @ReadB.TempHumId</h4></MudText>
-				<MudText ><h4>FW @ReadB.TempHumFW</h4></MudText>
-			</MudPaper>
-		</MudItem>
-		<MudItem xs="12" sm="12" md="3">
-			<MudPaper Elevation="8" Class="pa-4 px-8" Style="height: 130px;" >
-				<MudText Align="Align.Center"><h3>Fan Info</h3></MudText>
-				<MudText ><h4>Id @ReadB.FanId</h4></MudText>
-				<MudText ><h4>FW @ReadB.FanFW</h4></MudText>
-			</MudPaper>
-		</MudItem>
-
-		<MudItem xs="12" sm="12" md="3">
-			<MudPaper Elevation="8" Class="pa-4 px-8" Style="height: 130px;" >
-				<MudText Align="Align.Center"><h3>Led Info</h3></MudText>
-				<MudText ><h4>Id @ReadB.LedId</h4></MudText>
-				<MudText ><h4>FW @ReadB.LedFW</h4></MudText>
-			</MudPaper>
-		</MudItem>
-
-		<MudItem xs="12" sm="12" md="2">
-			<MudPaper Elevation="8" Class="justify-content: flex-end; " Style="height: 100%">
-					<IntensitySlider boxname="@BoxName"></IntensitySlider>
-
-			</MudPaper>
-		</MudItem>
-
-		<MudItem xs="12" sm="2">
-			<MudPaper Elevation="8" Class="pa-4 d-flex justify-center flex-grow-1 gap-4" Style="height: 100%">
-				@if (ReadboxStates == null)
-				{
-					<MudSkeleton Animation="Animation.Wave" />
-
-				}
-				else
-				{
-					<MudStack Class="pa-4 d-flex justify-center flex-grow-1 gap-4" Spacing="4">
-						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led1State" LedNum="1" />
-						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led2State" LedNum="2" />
-						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led3State" LedNum="3" />
-						<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4" />
-					</MudStack>
-				}
-			</MudPaper>
-		</MudItem>
-
-		<MudItem xs="12" sm="8">
+		else
+		{
+			<MudText Align="Align.Center"><h4>@foreach (var item in lastdata)
+											  {
+												  @item.Temperature <br>
+											  } </h4></MudText>
 
 			<MudGrid>
-				<MudItem xs="12">
-					<MudPaper Elevation="8" Class="pa-4" Style="height: 100%">
-						<MudChart Style="@($" primary:{Colors.Amber.Darken2};")" ChartType="ChartType.Line" ChartSeries="@Humidity" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" ChartOptions="options"></MudChart>
+				<MudItem xs="12" sm="6" md="3">
+					<MudPaper Elevation="8" Class="pa-4 px-16" Style="height: 130px;">
+						<MudText><h2></h2></MudText>
+						<MudText Align="Align.Center"><h2>@BoxName</h2></MudText>
 					</MudPaper>
 				</MudItem>
-				<MudItem xs="12">
-					<MudPaper Elevation="8" Class="pa-4" Style="height: 100%">
-						<MudChart ChartType="ChartType.Line" ChartSeries="@Temp" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" ChartOptions="options"></MudChart>
-				
+
+				<MudItem xs="12" sm="6" md="3">
+					<MudPaper Elevation="8" Class="pa-4 px-8" Style="height: 130px;">
+						<MudText Align="Align.Center"><h3>Humidity Info</h3></MudText>
+						<MudText><h4>Id @ReadB.TempHumId</h4></MudText>
+						<MudText><h4>FW @ReadB.TempHumFW</h4></MudText>
 					</MudPaper>
 				</MudItem>
+				<MudItem xs="12" sm="12" md="3">
+					<MudPaper Elevation="8" Class="pa-4 px-8" Style="height: 130px;">
+						<MudText Align="Align.Center"><h3>Fan Info</h3></MudText>
+						<MudText><h4>Id @ReadB.FanId</h4></MudText>
+						<MudText><h4>FW @ReadB.FanFW</h4></MudText>
+					</MudPaper>
+				</MudItem>
+
+				<MudItem xs="12" sm="12" md="3">
+					<MudPaper Elevation="8" Class="pa-4 px-8" Style="height: 130px;">
+						<MudText Align="Align.Center"><h3>Led Info</h3></MudText>
+						<MudText><h4>Id @ReadB.LedId</h4></MudText>
+						<MudText><h4>FW @ReadB.LedFW</h4></MudText>
+					</MudPaper>
+				</MudItem>
+				<MudItem xs="12" sm="12" md="2">
+
+					<MudGrid>
+						<MudItem xs="12">
+							<MudPaper Elevation="8" Class="justify-content: flex-end; " Style="height: 440px">
+								<IntensitySlider boxname="@BoxName"></IntensitySlider>
+							</MudPaper>
+						</MudItem>
+						<MudItem xs="12">
+							<MudPaper Elevation="8" Class="justify-content: flex-end; " Style="height: 440px">
+								<FanSpeedSlider boxname="@BoxName"></FanSpeedSlider>
+							</MudPaper>
+						</MudItem>
+					</MudGrid>
+
+
+				</MudItem>
+
+				<MudItem xs="12" sm="2">
+					<MudPaper Elevation="8" Class="pa-4 d-flex justify-center flex-grow-1 gap-4" Style="height: 100%">
+						@if (ReadboxStates == null)
+						{
+							<MudSkeleton Animation="Animation.Wave" />
+
+						}
+						else
+						{
+							<MudStack Class="pa-4 d-flex justify-center flex-grow-1 gap-4" Spacing="4">
+								<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led1State" LedNum="1" />
+								<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led2State" LedNum="2" />
+								<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led3State" LedNum="3" />
+								<LedButtonTemplate boxname="@BoxName" LedState="@ReadboxStates.Led4State" LedNum="4" />
+							</MudStack>
+						}
+					</MudPaper>
+				</MudItem>
+
+				<MudItem xs="12" sm="8">
+
+					<MudGrid>
+						<MudItem xs="12">
+							<MudPaper Elevation="8" Class="pa-4" Style="height: 100%">
+								<MudChart Style="@($" primary:{Colors.Amber.Darken2};")" ChartType="ChartType.Line" ChartSeries="@Humidity" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" ChartOptions="options"></MudChart>
+							</MudPaper>
+						</MudItem>
+						<MudItem xs="12">
+							<MudPaper Elevation="8" Class="pa-4" Style="height: 100%">
+								<MudChart ChartType="ChartType.Line" ChartSeries="@Temp" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" ChartOptions="options"></MudChart>
+
+							</MudPaper>
+						</MudItem>
+					</MudGrid>
+
+
+				</MudItem>
+
 			</MudGrid>
-
-
-		</MudItem>
-		
-	</MudGrid>
-	}
-</MudContainer>
+		}
+	</MudContainer>
 
 
 
@@ -102,7 +119,7 @@ else{
 
 
 
-@code {
+	@code {
 
 
 
@@ -128,6 +145,9 @@ else{
 		//options.XAxisLines = true;
 		//options.MaxNumYAxisTicks = 20;
 	}
+
+	double[] Datas = new double[] { 20, 22, 26, 22, 18, 20, 24, 28, 22};
+
 	private IBoxModel ReadB;
 	private IBoxStateModel ReadboxStates;
 	private List<IBoxDataModel> lastdata;
@@ -149,7 +169,7 @@ else{
 				DoorState = b.DoorState
 			};
 		ReadB = new DisplayBoxModel
-		{
+			{
 				BoxId = c.BoxId,
 				NameOfBox = c.NameOfBox,
 				Organization = c.Organization,
@@ -161,33 +181,37 @@ else{
 				LedId = c.FanId,
 				LedFW = c.LedFW
 			};
+
+
+		foreach (var item in lastdata)
+		{
+			Datas = new double[] { Convert.ToDouble(item.Temperature), };
+		}
+
 	}
 
-	
+
 
 	int value = 100;
 
 
 	private int Index = -1; //default value cannot be 0 -> first selectedindex is 0.
 
+
+
 	public List<ChartSeries> Humidity = new List<ChartSeries>()
 	{
-		new ChartSeries() { Name = "", Data = new double[] {0, 0, 0, 0} },
-		new ChartSeries() { Name = "", Data = new double[] {0, 0, 0, 0} },
-		new ChartSeries() { Name = "", Data = new double[] {0, 0, 0, 0} },
-		new ChartSeries() { Name = "Teplota", Data = new double[] { 20, 22, 26, 22, 18, 20, 24, 28, 30 } },
-		
+		new ChartSeries() { Name = "Teplota", Data = new double[] { 20, 22, 26, 22, 18, 20, 24, 28, 22} }
+
 	};
 
 	public List<ChartSeries> Temp = new List<ChartSeries>()
 	{
-		new ChartSeries() { Name = "", Data = new double[] {0, 0, 0, 0} },
-		new ChartSeries() { Name = "", Data = new double[] {0, 0, 0, 0} },
 		new ChartSeries() { Name = "Vlhkost", Data = new double[] { 10, 30, 80, 70, 75, 45, 32, 67, 75 } }
 	};
 
 
-	
+
 	public string[] XAxisLabels = { "01:14:06",
 									"01:14:07",
 									"01:14:08",

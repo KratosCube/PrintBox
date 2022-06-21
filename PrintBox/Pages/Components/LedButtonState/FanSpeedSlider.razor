@@ -1,0 +1,56 @@
+﻿@inject IBoxDataService boxdata
+
+@if (ReadboxStates == null)
+{
+	<MudSkeleton Animation="Animation.Wave" />
+}
+else
+{
+
+	<MudStack Class="d-flex" Spacing="4" Style="height:100%;">
+		<MudText Align="Align.Center"><h3>Fan Speed</h3></MudText>
+		<MudSlider Class=" d-flex justify-center" Style="@($" color:{Colors.BlueGrey.Darken2};")" Size="Size.Large" TickMarks="true" Step="25" Vertical="true" Min="0" Max="100" @bind-Value="value" @onchange="HandleUpdateState" />
+
+		<MudText Align="Align.Center"><h3>@value %</h3></MudText>
+	</MudStack>
+
+
+}
+
+
+
+@code {
+	int value;
+
+	[Parameter]
+	public string boxname { get; set; }
+
+	private IBoxStateModel ReadboxStates;
+
+
+	protected override async Task OnParametersSetAsync()
+	{
+
+		var b = await boxdata.ReadState(boxname);
+
+		ReadboxStates = new DisplayBoxStateModel
+			{
+				BoxId = b.BoxId,
+				FanSpeed = b.FanSpeed,
+			};
+	}
+
+
+
+
+	private async Task HandleUpdateState()
+	{
+		ReadboxStates.FanSpeed = value;
+		await boxdata.UpdateState(ReadboxStates);
+
+	}
+
+
+
+
+}
